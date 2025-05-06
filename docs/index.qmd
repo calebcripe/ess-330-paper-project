@@ -1,0 +1,105 @@
+---
+title: Change in RMNP Average Snowpack with Annual Temperatures
+authors:
+  - name: Caleb Cripe
+    affiliation: Colorado State University
+    roles: writing
+    corresponding: true
+  - name: Caitlin Rasbid
+    affiliation: Colorado State University
+    corresponding: false
+execute: 
+  echo: true
+bibliography: references.bib
+csl: apa-6th-edition.csl
+---
+
+# Background
+The issue of climate change has caused regime alterations across aspects of ecosystems, impacting ecosystems functioning and environmental services we utilize. Especially in the Western US, we rely on snowpack that accumulates during the winter to provide water for the drier months of the year, which means that decreased snowpack results in scarcity. Globally, snowpack substantially contributes to the livelihoods of over a billion people, who are both directly and indirectly dependent on meltwater resources. (@irannezhad2022snowpack) Decreased annual snowpack can have adverse impacts on fire conditions, making wildfires that start more dangerous and difficult to control. Reduced meltwater, soil moisture, and fuel moisture can greatly increase fire potential in forest systems, which we have already begun to see across the West. (@Gergel2017-vr) These factors increase the need for snowpack monitoring so urban populations are able to recognize when droughts are likely to occur and when fire risk is higher than average.
+
+# Data
+The Snow Telemetry Network, or SNOTEL, collects snowpack and other water supply data across the US to support resource management initiatives. We will utilize SNOTEL data from the six sites located in Rocky Mountain National Park, pulling data on average snow water equivalent recorded, average snow depth, average snow temperature, (soil temperature observed?) and mean air temperature. The six sites we plan to analyze located within RMNP are Phantom Valley, Lake Irene, Willow Park, Bear Lake, Copeland Lake, and Wild Basin. Using the SNOTEL data, we can extract daily records for each of the variables at each of the six sites in RMNP over a 25 year period, allowing us to observe changes from the first quarter of the 21st century. 
+
+# Exploring Our Data
+We will filter the dataset to only include entries from the past 25 years at the six sites of interest in RMNP,  Phantom Valley, Lake Irene, Willow Park, Bear Lake, Copeland Lake, and Wild Basin. We will then filter out any variables that are not being assessed for relationship to annual snowpack, and create annual aggregate variables from average snow water equivalent recorded, average snow depth, average snow temperature, and mean air temperature to simplify the daily data into an annual average that will aid in assessing trends over many years. We will be doing this according to a snow year, with a year being from October-September.
+
+```{r}
+library(readr)
+install.packages("janitor", repos = "https://cloud.r-project.org")
+library(janitor)
+rmnp_snotel <- read_csv("rmnp_snotel(rmnp_snotel).csv") %>%
+  janitor::clean_names()
+```
+
+```{r}
+library(tidyr)
+
+rmnp_clean <- rmnp_snotel %>%
+  drop_na()
+```
+
+```{r}
+library(tidyverse)
+library(lubridate)
+
+df <- rmnp_clean %>%
+  mutate(date = mdy(date),
+         year = year(date))
+
+swe_data <- df %>%
+  select(year, contains("snow_water_equivalent")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "swe"
+  )
+
+swe_data <- swe_data %>%
+  mutate(swe = as.numeric(swe))
+
+annual_swe <- swe_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(avg_swe = mean(swe, na.rm = TRUE))
+
+ggplot(annual_swe, aes(x = year, y = avg_swe)) +
+  geom_line(color = "blue", linewidth = 1.2) +
+  geom_point(color = "darkblue") +
+  geom_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(title = "Average SWE by Year (All Stations)",
+       x = "Year", y = "Average SWE (inches)") +
+  theme_bw()
+```
+
+```{r}
+temp_data <- df %>%
+  select(year, contains("air_temperature_average")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "temp"
+  ) %>%
+  mutate(temp = as.numeric(temp))
+
+annual_temp <- temp_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(avg_temp = mean(temp, na.rm = TRUE))
+
+ggplot(annual_temp, aes(x = year, y = avg_temp)) +
+  geom_line(color = "tomato", linewidth = 1.2) +
+  geom_point(color = "firebrick") +
+  geom_smooth(method = "lm", se = TRUE, color = "blue")
+  labs(title = "Average Air Temperature by Year (All Stations)",
+       x = "Year", y = "Avg Temp (°F)") +
+  theme_bw()
+```
+
+## Preliminary Methods
+To begin, we will conduct an exploratory data analysis using visual elements such as ggplots to represent trends in SWE over time and descriptive methods such as ANOVA to determine the differences in SWE by site. Visual exploration is important to understand if the nature of the relationship between variables is linear or if some transformation would better represent the relationship. After our visual exploration, we will perform any transformations necessary prior to model creation. If there appears to be a significant difference in SWE based on site, we may need to introduce site-specific variables such as elevation and latitude that will capture some individual site characteristics. 
+
+We can use other summary statistics such as cor() to assess any underlying correlations between variables that will influence model design and assess trends over time. Then we will use a simple linear regression with SWE as the predicted value and the five annual aggregate variables as predictors. This will allow us to get an idea of what variables are significant, if the relationship is positive or negative, and how well the model fits based on the R squared model. Likely the linear regression will not be a sufficient model, so we will use machine learning to create a workflow with additional model types, such as random forest or neural network. We could run into challenges in several ways, such as unexpected relationships between variables, missing data, or roadblocks associated with unfamiliarity with R and handling data. We expect to handle these challenges in different ways, but are preparing for them by reviewing past lecture material and re-familiarizing ourselves with commands that we need to use to achieve our goals.
+
+These methods will provide us with helpful insights into our overall research question in several ways. First, visual exploration will show differences SWE over time and across sites, suggesting the impacts of climate change and which ecosystems seem to be most resistant to this change, if any. The ANOVA and summary statistics will serve a similar purpose. The linear and machine learning models we will build will be useful in understanding what impacts SWE to be able to predict future SWE levels based on environmental indicators.
+
+
