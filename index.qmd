@@ -95,7 +95,7 @@ ggplot(annual_temp, aes(x = year, y = avg_temp)) +
   theme_bw()
 ```
 
-## Preliminary Methods
+# Preliminary Methods
 To begin, we will conduct an exploratory data analysis using visual elements such as ggplots to represent trends in SWE over time and descriptive methods such as ANOVA to determine the differences in SWE by site. Visual exploration is important to understand if the nature of the relationship between variables is linear or if some transformation would better represent the relationship. After our visual exploration, we will perform any transformations necessary prior to model creation. If there appears to be a significant difference in SWE based on site, we may need to introduce site-specific variables such as elevation and latitude that will capture some individual site characteristics. 
 
 We can use other summary statistics such as cor() to assess any underlying correlations between variables that will influence model design and assess trends over time. Then we will use a simple linear regression with SWE as the predicted value and the five annual aggregate variables as predictors. This will allow us to get an idea of what variables are significant, if the relationship is positive or negative, and how well the model fits based on the R squared model. Likely the linear regression will not be a sufficient model, so we will use machine learning to create a workflow with additional model types, such as random forest or neural network. We could run into challenges in several ways, such as unexpected relationships between variables, missing data, or roadblocks associated with unfamiliarity with R and handling data. We expect to handle these challenges in different ways, but are preparing for them by reviewing past lecture material and re-familiarizing ourselves with commands that we need to use to achieve our goals.
@@ -461,6 +461,73 @@ df_merged <- merge(site_temp_data, site_swe_data, by = c("site_code", "year"))
 
 aov_swe_continuous <- aov(swe ~ temp * site_code, data = df_merged)
 summary(aov_swe_continuous)
+```
+
+## Time Series Analysis 
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(ggpubr)
+library(tidyverse)
+
+rmnp_clean <- rmnp_clean %>%
+  select(date, contains(c("322_snow_water_equivalent", "412_snow_water_equivalent", "565_snow_water_equivalent","688_snow_water_equivalent", "1042_snow_water_equivalent", "870_snow_water_equivalent"))
+  ) %>%
+  rename(Date_col = date) %>%
+  mutate(Date_col = mdy(Date_col)) %>%
+  arrange(Date_col) %>%
+  drop_na()
+
+library(tsibble)
+library(feasts)
+
+swe_long <- rmnp_clean %>%
+  pivot_longer(
+    cols = contains("snow_water_equivalent"),
+    names_to = "site",
+    values_to = "SWE"
+  ) %>%
+  mutate(site = str_remove(site, "_snow_water_equivalent_in_start_of_day_values"))
+
+swe_monthly <- swe_long %>%
+  mutate(month = floor_date(Date_col, "month"))%>%
+  group_by(site, month) %>%
+  summarize(mean_swe = mean(SWE, na.rm = TRUE), .groups = "drop") %>%
+  mutate(mean_swe = ifelse(is.nan(mean_swe), 0, mean_swe))
+
+
+daily_dates <- tibble(date = seq.Date(from = min(swe_monthly$month), to = max(swe_monthly$month), by = "day")) %>%
+  mutate(month = floor_date(date, "month"))
+
+sites <- unique(swe_monthly$site)
+
+full_daily_grid <- expand_grid(site = sites, date = daily_dates$date) %>%
+  mutate(month = floor_date(date, "month"))
+
+swe_filled <- full_daily_grid %>%
+  left_join(swe_monthly, by = c("site", "month")) %>%
+  arrange(site, date)
+
+swe_filled <- swe_filled %>%
+  mutate(mean_swe = ifelse(is.na(mean_swe) | is.nan(mean_swe), 0, mean_swe))
+
+
+swe_tsibble <- swe_filled %>%
+  as_tsibble(key = site, index = date) %>%
+  fill_gaps()
+
+swe_tsibble %>%
+  filter(is.na(mean_swe)) %>%
+  count(site)
+
+decomposed <- swe_tsibble %>%
+  model(STL(mean_swe ~ season(window = "periodic"))) %>%
+  components()
+
+autoplot(decomposed) + 
+  labs(title = "SWE Decomposition by Site")
 ```
 
 
