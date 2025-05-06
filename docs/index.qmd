@@ -102,4 +102,323 @@ We can use other summary statistics such as cor() to assess any underlying corre
 
 These methods will provide us with helpful insights into our overall research question in several ways. First, visual exploration will show differences SWE over time and across sites, suggesting the impacts of climate change and which ecosystems seem to be most resistant to this change, if any. The ANOVA and summary statistics will serve a similar purpose. The linear and machine learning models we will build will be useful in understanding what impacts SWE to be able to predict future SWE levels based on environmental indicators.
 
+# Site-by-Site Analysis
 
+## Bear Lake (322) 
+```{r}
+library(patchwork)
+bear_swe_data <- df %>%
+  select(year, contains("322_snow_water_equivalent")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "swe"
+  )
+
+bear_swe_data <- bear_swe_data %>%
+  mutate(swe = as.numeric(swe))
+
+bear_annual_swe <- bear_swe_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(bear_avg_swe = mean(swe, na.rm = TRUE)) 
+
+bear_swe_plot <- ggplot(bear_annual_swe, aes(x = year, y = bear_avg_swe)) +
+  geom_line(color = "blue", linewidth = 1.2) +
+  geom_point(color = "darkblue") +
+  geom_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(title = "Average SWE by Year (Bear Lake (322))",
+       x = "Year", y = "Average SWE (inches)") +
+  theme_bw()
+
+bear_temp_data <- df %>%
+  select(year, contains("322_air_temperature_average")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "temp"
+  ) %>%
+  mutate(temp = as.numeric(temp))
+
+bear_annual_temp <- bear_temp_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(bear_avg_temp = mean(temp, na.rm = TRUE))
+
+bear_temp_plot <- ggplot(bear_annual_temp, aes(x = year, y = bear_avg_temp)) +
+  geom_line(color = "tomato", linewidth = 1.2) +
+  geom_point(color = "firebrick") +
+  geom_smooth(method = "lm", se = TRUE, color = "blue")
+  labs(title = "Average Air Temperature by Year (Bear Lake (322))",
+       x = "Year", y = "Avg Temp (°F)") +
+  theme_bw()
+  
+bear_swe_plot + bear_temp_plot
+```
+
+## Copeland Lake (412)
+```{r}
+cope_swe_data <- df %>%
+  select(year, contains("412_snow_water_equivalent")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "swe"
+  )
+
+cope_swe_data <- cope_swe_data %>%
+  mutate(swe = as.numeric(swe))
+
+cope_annual_swe <- cope_swe_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(cope_avg_swe = mean(swe, na.rm = TRUE)) 
+
+cope_swe_plot <- ggplot(cope_annual_swe, aes(x = year, y = cope_avg_swe)) +
+  geom_line(color = "blue", linewidth = 1.2) +
+  geom_point(color = "darkblue") +
+  geom_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(title = "Average SWE by Year (Copeland Lake (412))",
+       x = "Year", y = "Average SWE (inches)") +
+  theme_bw()
+
+cope_temp_data <- df %>%
+  select(year, contains("412_air_temperature_average")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "temp"
+  ) %>%
+  mutate(temp = as.numeric(temp))
+
+cope_annual_temp <- cope_temp_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(cope_avg_temp = mean(temp, na.rm = TRUE))
+
+cope_temp_plot <- ggplot(cope_annual_temp, aes(x = year, y = cope_avg_temp)) +
+  geom_line(color = "tomato", linewidth = 1.2) +
+  geom_point(color = "firebrick") +
+  geom_smooth(method = "lm", se = TRUE, color = "blue")
+  labs(title = "Average Air Temperature by Year (Copeland Lake (412))",
+       x = "Year", y = "Avg Temp (°F)") +
+  theme_bw()
+  
+cope_swe_plot + cope_temp_plot
+```
+
+## Lake Irene (565)
+```{r}
+irene_swe_data <- df %>%
+  select(year, contains("565_snow_water_equivalent")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "swe"
+  )
+
+irene_swe_data <- irene_swe_data %>%
+  mutate(swe = as.numeric(swe))
+
+irene_annual_swe <- irene_swe_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(irene_avg_swe = mean(swe, na.rm = TRUE)) 
+
+irene_swe_plot <- ggplot(irene_annual_swe, aes(x = year, y = irene_avg_swe)) +
+  geom_line(color = "blue", linewidth = 1.2) +
+  geom_point(color = "darkblue") +
+  geom_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(title = "Average SWE by Year (Lake Irene (565))",
+       x = "Year", y = "Average SWE (inches)") +
+  theme_bw()
+
+irene_temp_data <- df %>%
+  select(year, contains("565_air_temperature_average")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "temp"
+  ) %>%
+  mutate(temp = as.numeric(temp))
+
+irene_annual_temp <- irene_temp_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(irene_avg_temp = mean(temp, na.rm = TRUE))
+
+irene_temp_plot <- ggplot(irene_annual_temp, aes(x = year, y = irene_avg_temp)) +
+  geom_line(color = "tomato", linewidth = 1.2) +
+  geom_point(color = "firebrick") +
+  geom_smooth(method = "lm", se = TRUE, color = "blue")
+  labs(title = "Average Air Temperature by Year (Lake Irene (565))",
+       x = "Year", y = "Avg Temp (°F)") +
+  theme_bw()
+  
+irene_swe_plot + irene_temp_plot
+```
+
+## Phantom Valley (688)
+```{r}
+phantom_swe_data <- df %>%
+  select(year, contains("688_snow_water_equivalent")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "swe"
+  )
+
+phantom_swe_data <- phantom_swe_data %>%
+  mutate(swe = as.numeric(swe))
+
+phantom_annual_swe <- phantom_swe_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(phantom_avg_swe = mean(swe, na.rm = TRUE)) 
+
+phantom_swe_plot <- ggplot(phantom_annual_swe, aes(x = year, y = phantom_avg_swe)) +
+  geom_line(color = "blue", linewidth = 1.2) +
+  geom_point(color = "darkblue") +
+  geom_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(title = "Average SWE by Year (Phantom Valley (688))",
+       x = "Year", y = "Average SWE (inches)") +
+  theme_bw()
+
+phantom_temp_data <- df %>%
+  select(year, contains("688_air_temperature_average")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "temp"
+  ) %>%
+  mutate(temp = as.numeric(temp))
+
+phantom_annual_temp <- phantom_temp_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(phantom_avg_temp = mean(temp, na.rm = TRUE))
+
+phantom_temp_plot <- ggplot(phantom_annual_temp, aes(x = year, y = phantom_avg_temp)) +
+  geom_line(color = "tomato", linewidth = 1.2) +
+  geom_point(color = "firebrick") +
+  geom_smooth(method = "lm", se = TRUE, color = "blue")
+  labs(title = "Average Air Temperature by Year (Phantom Valley (688))",
+       x = "Year", y = "Avg Temp (°F)") +
+  theme_bw()
+  
+phantom_swe_plot + phantom_temp_plot
+```
+
+## Wild Basin (1042)
+```{r}
+basin_swe_data <- df %>%
+  select(year, contains("1042_snow_water_equivalent")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "swe"
+  )
+
+basin_swe_data <- basin_swe_data %>%
+  mutate(swe = as.numeric(swe))
+
+basin_annual_swe <- basin_swe_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(basin_avg_swe = mean(swe, na.rm = TRUE)) 
+
+basin_swe_plot <- ggplot(basin_annual_swe, aes(x = year, y = basin_avg_swe)) +
+  geom_line(color = "blue", linewidth = 1.2) +
+  geom_point(color = "darkblue") +
+  geom_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(title = "Average SWE by Year (Wild Basin (1042))",
+       x = "Year", y = "Average SWE (inches)") +
+  theme_bw()
+
+basin_temp_data <- df %>%
+  select(year, contains("1042_air_temperature_average")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "temp"
+  ) %>%
+  mutate(temp = as.numeric(temp))
+
+basin_annual_temp <- basin_temp_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(basin_avg_temp = mean(temp, na.rm = TRUE))
+
+basin_temp_plot <- ggplot(basin_annual_temp, aes(x = year, y = basin_avg_temp)) +
+  geom_line(color = "tomato", linewidth = 1.2) +
+  geom_point(color = "firebrick") +
+  geom_smooth(method = "lm", se = TRUE, color = "blue")
+  labs(title = "Average Air Temperature by Year (Wild Basin (1042))",
+       x = "Year", y = "Avg Temp (°F)") +
+  theme_bw()
+  
+basin_swe_plot + basin_temp_plot
+```
+
+## Willow Park (870)
+```{r}
+willow_swe_data <- df %>%
+  select(year, contains("870_snow_water_equivalent")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "swe"
+  )
+
+willow_swe_data <- willow_swe_data %>%
+  mutate(swe = as.numeric(swe))
+
+willow_annual_swe <- willow_swe_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(willow_avg_swe = mean(swe, na.rm = TRUE)) 
+
+willow_swe_plot <- ggplot(willow_annual_swe, aes(x = year, y = willow_avg_swe)) +
+  geom_line(color = "blue", linewidth = 1.2) +
+  geom_point(color = "darkblue") +
+  geom_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(title = "Average SWE by Year (Willow Park (870))",
+       x = "Year", y = "Average SWE (inches)") +
+  theme_bw()
+
+willow_temp_data <- df %>%
+  select(year, contains("870_air_temperature_average")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "temp"
+  ) %>%
+  mutate(temp = as.numeric(temp))
+
+willow_annual_temp <- willow_temp_data %>%
+  filter(year < 2025) %>%
+  group_by(year) %>%
+  summarise(willow_avg_temp = mean(temp, na.rm = TRUE))
+
+willow_temp_plot <- ggplot(willow_annual_temp, aes(x = year, y = willow_avg_temp)) +
+  geom_line(color = "tomato", linewidth = 1.2) +
+  geom_point(color = "firebrick") +
+  geom_smooth(method = "lm", se = TRUE, color = "blue")
+  labs(title = "Average Air Temperature by Year (Willow Park (870))",
+       x = "Year", y = "Avg Temp (°F)") +
+  theme_bw()
+  
+willow_swe_plot + willow_temp_plot
+```
+
+# Discussion
+
+In our initial data visualization, we graphed the annual aggregate snow water equivalent by year for and the mean aggregate temperature by year for the sites in Rocky Mountain National Park. We included lines of best fit for both of the graphical representations of these variables to get a sense for general trends we might be looking at. In the average aggregate snow water equivalent by year data, there appears to be a slight upward trend throughout the 20-year period of analysis. Similarly, in the data for the mean aggregate temperature by year there appears to be an increasing trend, though much sharper than the snow water equivalent graph. 
+
+Following these initial aggregate analyses, we separated each of the sites and conducted the same exploratory analysis for all six over the 20-year period to observe individual variations within each site. Contrary to our hypothesis, four out of the six sites exhibited increased snow water equivalent levels with increasing temperatures over the 20-year period of study. This may indicate that increased temperatures may reduce snowfall, but increase the overall density of water content within the snow itself leading to higher recorded snow water equivalents. 
+
+Through our use of ANOVA analysis we were able to conduct one-way analyses with both individual variables for each study site, as well as observing the relationship between the two variables. Our analysis of snow water content revealed that site number was a strong indicator of the variable, suggesting that site-based differences such as altitude might affect snowpack in relation to temperature. Similarly, we found that temperature was similarly impacted by site number, pointing to a difference of variables based on site conditions. In our two-way analysis, we found that around 48% of the variance in snow water equivalence could be explained by temperature, which suggests that additional variables account for the remaining 50% of variance. This could be a jumping point for additional study, prompting the exploration of other variables within the data set. 
+
+ We used a Seasonal-Trend Decomposition using LOESS (STL) for monthly average snow water equivalent (SWE) data across the six sites. The results of the decomposition were analyzed by components to better understand how SWE changes year over year. The mean_swe graph represents the original time series data, indicating that each site shows strong seasonal SWE peaks between March-April, with Lake Irene consistently having the highest SWE and Copeland Lake and Willow Park rank lowest. The trend component graph smooths out seasonal variance to show trends year to year, with site differences emerging. Some sites, like Lake Irene and Phantom Valley show declines in SWE post ~2011 specifically. Other sites, like Copeland Lake, reflect a relatively stable if not slightly increasing SWE trend. These differences between trends suggest site-specific variability in SWE in response to changing weather and climate patterns. More data analysis is needed at the site level to assess how other variables such as elevation or latitude may contribute to differences in trends.  The season_year component captures annual patterns and indicates that SWE is highly seasonal following a similar pattern each year, with the greatest snowpack in March-April, then decreasing during the summer months and accumulating through winter. The season_week indicates there is no additional weekly pattern to seasonality, but this may not accurately reflect weekly variation as the time series was built on monthly average values to avoid noise in the data. The remainder component represents residuals and displays no major anomalies, suggesting that the STL decomposition captures the structure of the time series well. There are minor outliers, with a spike in 2011 accompanied by variance in the pattern until 2015. These outliers could reflect year to year weather variations and may be influenced by extreme weather events or El Niño/La Niña years. 
+
+Though our study indicates that more research into the effects of climate change on alpine snowpack levels is needed to further explore the relationship between temperature changes and snow water equivalents, it may open new conversations around unexpected results of climate change. Our study is limited by the timespan of our data, which only shows a snapshot of recorded trends relating to snowpack in Rocky Mountain National Park, though further analysis could build upon our study with an expanded time frame. Additionally, our study was limited by the time we had to complete it and the extent of our data analysis skills. The relationship between snow water equivalents and other variables in the data could be further explored, highlighting the extent to which multivariate analysis could explain some of the additional variance. 
