@@ -163,7 +163,7 @@ div.csl-indent {
   <ul>
   <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  <li><a href="#exploring-our-data" id="toc-exploring-our-data" class="nav-link" data-scroll-target="#exploring-our-data">Exploring Our Data</a></li>
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration">Data Exploration</a></li>
   <li><a href="#preliminary-methods" id="toc-preliminary-methods" class="nav-link" data-scroll-target="#preliminary-methods">Preliminary Methods</a></li>
   <li><a href="#site-by-site-analysis" id="toc-site-by-site-analysis" class="nav-link" data-scroll-target="#site-by-site-analysis">Site-by-Site Analysis</a>
   <ul class="collapse">
@@ -202,8 +202,8 @@ div.csl-indent {
 <h1>Data</h1>
 <p>The Snow Telemetry Network, or SNOTEL, collects snowpack and other water supply data across the US to support resource management initiatives. We will utilize SNOTEL data from the six sites located in Rocky Mountain National Park, pulling data on average snow water equivalent recorded, average snow depth, average snow temperature, (soil temperature observed?) and mean air temperature. The six sites we plan to analyze located within RMNP are Phantom Valley, Lake Irene, Willow Park, Bear Lake, Copeland Lake, and Wild Basin. Using the SNOTEL data, we can extract daily records for each of the variables at each of the six sites in RMNP over a 25 year period, allowing us to observe changes from the first quarter of the 21st century.</p>
 </section>
-<section id="exploring-our-data" class="level1">
-<h1>Exploring Our Data</h1>
+<section id="data-exploration" class="level1">
+<h1>Data Exploration</h1>
 <p>We will filter the dataset to only include entries from the past 25 years at the six sites of interest in RMNP, Phantom Valley, Lake Irene, Willow Park, Bear Lake, Copeland Lake, and Wild Basin. We will then filter out any variables that are not being assessed for relationship to annual snowpack, and create annual aggregate variables from average snow water equivalent recorded, average snow depth, average snow temperature, and mean air temperature to simplify the daily data into an annual average that will aid in assessing trends over many years. We will be doing this according to a snow year, with a year being from October-September.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
@@ -211,7 +211,7 @@ div.csl-indent {
 <div class="cell-output cell-output-stdout">
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/jn/hk4fnzlx679cs3m0_lnzh7hh0000gn/T//Rtmp9Zj5xn/downloaded_packages</code></pre>
+    /var/folders/jn/hk4fnzlx679cs3m0_lnzh7hh0000gn/T//Rtmp8QOM46/downloaded_packages</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr hidden">
@@ -1352,7 +1352,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","openEffect":"zoom","loop":false,"closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","descPosition":"bottom","selector":".lightbox","loop":false});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
