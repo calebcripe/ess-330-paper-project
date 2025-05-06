@@ -270,6 +270,12 @@
   <li><a href="#wild-basin-1042" id="toc-wild-basin-1042" class="nav-link" data-scroll-target="#wild-basin-1042">Wild Basin (1042)</a></li>
   <li><a href="#willow-park-870" id="toc-willow-park-870" class="nav-link" data-scroll-target="#willow-park-870">Willow Park (870)</a></li>
   </ul></li>
+  <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link" data-scroll-target="#statistical-analysis">Statistical Analysis</a>
+  <ul class="collapse">
+  <li><a href="#swe-one-way-anova" id="toc-swe-one-way-anova" class="nav-link" data-scroll-target="#swe-one-way-anova">SWE One-Way ANOVA</a></li>
+  <li><a href="#temp-one-way-anova" id="toc-temp-one-way-anova" class="nav-link" data-scroll-target="#temp-one-way-anova">TEMP One-Way ANOVA</a></li>
+  <li><a href="#two-way-anova" id="toc-two-way-anova" class="nav-link" data-scroll-target="#two-way-anova">Two-Way ANOVA</a></li>
+  </ul></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
   </ul>
 </nav>
@@ -295,7 +301,7 @@
 <div class="cell-output cell-output-stdout">
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/jn/hk4fnzlx679cs3m0_lnzh7hh0000gn/T//RtmpUXC5rl/downloaded_packages</code></pre>
+    /var/folders/jn/hk4fnzlx679cs3m0_lnzh7hh0000gn/T//RtmpTo6KDR/downloaded_packages</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -818,6 +824,85 @@ dbl (36): Bear Lake (322) Snow Water Equivalent (in) Start of Day Values, Be...
 </div></div>
 </section>
 </section>
+<section id="statistical-analysis" class="level1">
+<h1>Statistical Analysis</h1>
+<section id="swe-one-way-anova" class="level2">
+<h2 class="anchored" data-anchor-id="swe-one-way-anova">SWE One-Way ANOVA</h2>
+<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>site_swe_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, <span class="fu">contains</span>(<span class="st">"snow_water_equivalent"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>year,</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"station"</span>,</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"swe"</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">site_code =</span> <span class="fu">str_extract</span>(station, <span class="st">"_</span><span class="sc">\\</span><span class="st">d+_"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>                <span class="fu">str_replace_all</span>(<span class="st">"_"</span>, <span class="st">""</span>)</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">as.numeric</span>(site_code))</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>swe_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(swe <span class="sc">~</span> site_code, <span class="at">data =</span> site_swe_data)</span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(swe_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Df  Sum Sq Mean Sq F value Pr(&gt;F)    
+site_code       5  239830   47966    1022 &lt;2e-16 ***
+Residuals   37776 1773767      47                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div></div>
+</section>
+<section id="temp-one-way-anova" class="level2">
+<h2 class="anchored" data-anchor-id="temp-one-way-anova">TEMP One-Way ANOVA</h2>
+<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>site_temp_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, <span class="fu">contains</span>(<span class="st">"air_temperature_average"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>year,</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"station"</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"temp"</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">site_code =</span> <span class="fu">str_extract</span>(station, <span class="st">"_</span><span class="sc">\\</span><span class="st">d+_"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">str_replace_all</span>(<span class="st">"_"</span>, <span class="st">""</span>)</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">as.numeric</span>(site_code))</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>temp_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(temp <span class="sc">~</span> site_code, <span class="at">data =</span> site_temp_data)</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(temp_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Df  Sum Sq Mean Sq F value Pr(&gt;F)    
+site_code       5  435442   87088   333.5 &lt;2e-16 ***
+Residuals   37776 9864814     261                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div></div>
+</section>
+<section id="two-way-anova" class="level2">
+<h2 class="anchored" data-anchor-id="two-way-anova">Two-Way ANOVA</h2>
+<div class="cell-container"><div class="cell-decorator"><pre>In [13]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>df_merged <span class="ot">&lt;-</span> <span class="fu">merge</span>(site_temp_data, site_swe_data, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"site_code"</span>, <span class="st">"year"</span>))</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>aov_swe_continuous <span class="ot">&lt;-</span> <span class="fu">aov</span>(swe <span class="sc">~</span> temp <span class="sc">*</span> site_code, <span class="at">data =</span> df_merged)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(aov_swe_continuous)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     Df    Sum Sq  Mean Sq  F value Pr(&gt;F)    
+temp                  1   2393314  2393314  50201.9 &lt;2e-16 ***
+site_code             5  77745211 15549042 326154.9 &lt;2e-16 ***
+temp:site_code        5     39165     7833    164.3 &lt;2e-16 ***
+Residuals      12482022 595065286       48                    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div></div>
+</section>
+</section>
 <section id="discussion" class="level1">
 <h1>Discussion</h1>
 <p>In our initial data visualization, we graphed the annual aggregate snow water equivalent by year for and the mean aggregate temperature by year for the sites in Rocky Mountain National Park. We included lines of best fit for both of the graphical representations of these variables to get a sense for general trends we might be looking at. In the average aggregate snow water equivalent by year data, there appears to be a slight upward trend throughout the 20-year period of analysis. Similarly, in the data for the mean aggregate temperature by year there appears to be an increasing trend, though much sharper than the snow water equivalent graph.</p>
@@ -1254,7 +1339,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom","closeEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

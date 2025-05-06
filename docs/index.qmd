@@ -411,6 +411,59 @@ willow_temp_plot <- ggplot(willow_annual_temp, aes(x = year, y = willow_avg_temp
 willow_swe_plot + willow_temp_plot
 ```
 
+# Statistical Analysis
+
+## SWE One-Way ANOVA 
+```{r}
+library(dplyr)
+library(tidyr)
+library(stringr)
+
+site_swe_data <- df %>%
+  select(year, contains("snow_water_equivalent")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "swe"
+  ) %>%
+  mutate(
+    site_code = str_extract(station, "_\\d+_") %>%
+                str_replace_all("_", "")
+  ) %>%
+  arrange(as.numeric(site_code))
+
+swe_anova <- aov(swe ~ site_code, data = site_swe_data)
+summary(swe_anova)
+```
+
+## TEMP One-Way ANOVA
+```{r}
+site_temp_data <- df %>%
+  select(year, contains("air_temperature_average")) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "station",
+    values_to = "temp"
+  ) %>%
+  mutate(
+    site_code = str_extract(station, "_\\d+_") %>%
+                str_replace_all("_", "")
+  ) %>%
+  arrange(as.numeric(site_code))
+
+temp_anova <- aov(temp ~ site_code, data = site_temp_data)
+summary(temp_anova)
+```
+
+## Two-Way ANOVA
+```{r}
+df_merged <- merge(site_temp_data, site_swe_data, by = c("site_code", "year"))
+
+aov_swe_continuous <- aov(swe ~ temp * site_code, data = df_merged)
+summary(aov_swe_continuous)
+```
+
+
 # Discussion
 
 In our initial data visualization, we graphed the annual aggregate snow water equivalent by year for and the mean aggregate temperature by year for the sites in Rocky Mountain National Park. We included lines of best fit for both of the graphical representations of these variables to get a sense for general trends we might be looking at. In the average aggregate snow water equivalent by year data, there appears to be a slight upward trend throughout the 20-year period of analysis. Similarly, in the data for the mean aggregate temperature by year there appears to be an increasing trend, though much sharper than the snow water equivalent graph. 
