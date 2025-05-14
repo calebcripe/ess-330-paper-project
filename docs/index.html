@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Change in RMNP Average Snowpack with Annual Temperatures</title>
+<title>Assessing Changes in Snow Water Equivalent in Rocky Mountain National Park with Increasing Annual Air Temperatures</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -98,7 +98,7 @@ div.csl-indent {
 </script>
 
 
-<meta name="citation_title" content="Change in RMNP Average Snowpack with Annual Temperatures">
+<meta name="citation_title" content="Assessing Changes in Snow Water Equivalent in Rocky Mountain National Park with Increasing Annual Air Temperatures">
 <meta name="citation_author" content="Caleb Cripe">
 <meta name="citation_author" content="Caitlin Rasbid">
 <meta name="citation_language" content="en">
@@ -112,7 +112,7 @@ div.csl-indent {
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Change in RMNP Average Snowpack with Annual Temperatures</h1>
+      <h1 class="title">Assessing Changes in Snow Water Equivalent in Rocky Mountain National Park with Increasing Annual Air Temperatures</h1>
           </div>
 
     
@@ -161,24 +161,14 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration">Data Exploration</a></li>
-  <li><a href="#preliminary-methods" id="toc-preliminary-methods" class="nav-link" data-scroll-target="#preliminary-methods">Preliminary Methods</a></li>
-  <li><a href="#site-by-site-analysis" id="toc-site-by-site-analysis" class="nav-link" data-scroll-target="#site-by-site-analysis">Site-by-Site Analysis</a>
+  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
-  <li><a href="#bear-lake-322" id="toc-bear-lake-322" class="nav-link" data-scroll-target="#bear-lake-322">Bear Lake (322)</a></li>
-  <li><a href="#copeland-lake-412" id="toc-copeland-lake-412" class="nav-link" data-scroll-target="#copeland-lake-412">Copeland Lake (412)</a></li>
-  <li><a href="#lake-irene-565" id="toc-lake-irene-565" class="nav-link" data-scroll-target="#lake-irene-565">Lake Irene (565)</a></li>
-  <li><a href="#phantom-valley-688" id="toc-phantom-valley-688" class="nav-link" data-scroll-target="#phantom-valley-688">Phantom Valley (688)</a></li>
-  <li><a href="#wild-basin-1042" id="toc-wild-basin-1042" class="nav-link" data-scroll-target="#wild-basin-1042">Wild Basin (1042)</a></li>
-  <li><a href="#willow-park-870" id="toc-willow-park-870" class="nav-link" data-scroll-target="#willow-park-870">Willow Park (870)</a></li>
-  </ul></li>
-  <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link" data-scroll-target="#statistical-analysis">Statistical Analysis</a>
-  <ul class="collapse">
-  <li><a href="#swe-one-way-anova" id="toc-swe-one-way-anova" class="nav-link" data-scroll-target="#swe-one-way-anova">SWE One-Way ANOVA</a></li>
-  <li><a href="#temp-one-way-anova" id="toc-temp-one-way-anova" class="nav-link" data-scroll-target="#temp-one-way-anova">TEMP One-Way ANOVA</a></li>
-  <li><a href="#two-way-anova" id="toc-two-way-anova" class="nav-link" data-scroll-target="#two-way-anova">Two-Way ANOVA</a></li>
+  <li><a href="#aggregate-analysis" id="toc-aggregate-analysis" class="nav-link" data-scroll-target="#aggregate-analysis">Aggregate Analysis</a></li>
+  <li><a href="#site-by-site-analysis" id="toc-site-by-site-analysis" class="nav-link" data-scroll-target="#site-by-site-analysis">Site-by-Site Analysis</a></li>
+  <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link" data-scroll-target="#statistical-analysis">Statistical Analysis</a></li>
   <li><a href="#time-series-analysis" id="toc-time-series-analysis" class="nav-link" data-scroll-target="#time-series-analysis">Time Series Analysis</a></li>
   </ul></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
@@ -194,24 +184,24 @@ div.csl-indent {
   
 
 
-<section id="background" class="level1">
-<h1>Background</h1>
-<p>The issue of climate change has caused regime alterations across aspects of ecosystems, impacting ecosystems functioning and environmental services we utilize. Especially in the Western US, we rely on snowpack that accumulates during the winter to provide water for the drier months of the year, which means that decreased snowpack results in scarcity. Globally, snowpack substantially contributes to the livelihoods of over a billion people, who are both directly and indirectly dependent on meltwater resources. (<span class="citation" data-cites="irannezhad2022snowpack">Irannezhad, Ronkanen, &amp; Malekian (<a href="#ref-irannezhad2022snowpack" role="doc-biblioref">2022</a>)</span>) Decreased annual snowpack can have adverse impacts on fire conditions, making wildfires that start more dangerous and difficult to control. Reduced meltwater, soil moisture, and fuel moisture can greatly increase fire potential in forest systems, which we have already begun to see across the West. (<span class="citation" data-cites="Gergel2017-vr">Gergel, Nijssen, Abatzoglou, Lettenmaier, &amp; Stumbaugh (<a href="#ref-Gergel2017-vr" role="doc-biblioref">2017</a>)</span>) These factors increase the need for snowpack monitoring so urban populations are able to recognize when droughts are likely to occur and when fire risk is higher than average.</p>
+<section id="abstract" class="level1">
+<h1>Abstract</h1>
+<p>With climate change impacts becoming readily felt by various populations with record-breaking air temperatures and more prevalent hurricanes, droughts, and other extreme weather events, it is essential to analyze past trends of ecosystem functions in response to climate change in order to predict and mitigate climate change related events. Of particular interest to the Western United States is the impact of increasing air temperatures on the annual accumulated snowpack which supplies much of the freshwater resources to the drought-prone region. Applying this focus to a local scale, here we utilize SNOTEL snowpack and climate condition data from six sites in Rocky Mountain National Park to assess trends in snowpack and air temperature over the last 20 years. Performing visual data exploration, statistical analyses such as ANOVA and MANOVA, and a time-series decomposition, we were able to see a clear rising trend in air temperature, though snowpack demonstrated less clear trends. Snow pack decreased in the last 20 years at Lake Irene and Phantom Valley post 2011, though other sites like Copeland Lake maintained a relatively stable if not slightly increasing trend in snowpack. The implications of this study provide context to the unpredictable effects of climate change on snow pack in Rocky Mountain National Park, while emphasizing the need for further study over increased time spans.</p>
 </section>
-<section id="data" class="level1">
-<h1>Data</h1>
-<p>The Snow Telemetry Network, or SNOTEL, collects snowpack and other water supply data across the US to support resource management initiatives. We will utilize SNOTEL data from the six sites located in Rocky Mountain National Park, pulling data on average snow water equivalent recorded, average snow depth, average snow temperature, (soil temperature observed?) and mean air temperature. The six sites we plan to analyze located within RMNP are Phantom Valley, Lake Irene, Willow Park, Bear Lake, Copeland Lake, and Wild Basin. Using the SNOTEL data, we can extract daily records for each of the variables at each of the six sites in RMNP over a 25 year period, allowing us to observe changes from the first quarter of the 21st century.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Climate change has caused regime alterations across aspects of ecosystems, impacting ecosystems functioning and environmental services societies rely on. Especially in the Western U.S., snowpack that accumulates during the winter is essential to provide water for the drier months of the year, with decreasing snow pack resulting in scarcity. Globally, snowpack substantially contributes to the livelihoods of over a billion people, who are both directly and indirectly dependent on meltwater resources (<span class="citation" data-cites="irannezhad2022snowpack">Irannezhad, Ronkanen, &amp; Malekian (<a href="#ref-irannezhad2022snowpack" role="doc-biblioref">2022</a>)</span>). Decreased annual snow pack can have adverse impacts on fire conditions, making wildfires that start more dangerous and difficult to control. Reduced meltwater, soil moisture, and fuel moisture can greatly increase fire potential in forest systems, which studies have suggested is already occurring in the Western U.S. (<span class="citation" data-cites="Gergel2017-vr">Gergel, Nijssen, Abatzoglou, Lettenmaier, &amp; Stumbaugh (<a href="#ref-Gergel2017-vr" role="doc-biblioref">2017</a>)</span>) These factors underscore the need to analyze trends in snow pack and assess contributing factors so urban populations are able to recognize when droughts are likely to occur and when fire risk is higher than average.</p>
+<p>Our research question stemmed from the existing research connecting climate change to decreasing snow pack with varying degrees of impact by region (<span class="citation" data-cites="irannezhad2022snowpack">Irannezhad et al. (<a href="#ref-irannezhad2022snowpack" role="doc-biblioref">2022</a>)</span>). We wanted to assess specifically how snow water equivalent (SWE) in Rocky Mountain National Park (RMNP) changed compared to mean air temperature (MAT), given RMNP snow melt provides freshwater to Fort Collins. The data we used was the Snow Telemetry Network (SNOTEL) from the six sites located in RMNP, filtering data to include start of day SWE recorded and daily MAT from the last 20 years. The six sites we analyzed located within RMNP are: Phantom Valley, Lake Irene, Willow Park, Bear Lake, Copeland Lake, and Wild Basin. We analyzed trends visually then confirmed correlation between SWE and MAT using statistical tests. Then we compared the impact of site-specific differences using ANOVA and MANOVA. Sites are explored further individually by conducting visual analysis of individual MAT and SWE trends over the 20 year study period. We then performed a time series analysis to assess to what degree trends were affected by seasonality and randomness within the data. Through this analysis we predicted that increasing MAT has an inverse relationship on SWE in RMNP for the past 20 years. More so, we were interested in specific variations between sites and understanding the impacts of complex, changing weather systems and extreme weather events.</p>
 </section>
-<section id="data-exploration" class="level1">
-<h1>Data Exploration</h1>
-<p>We will filter the dataset to only include entries from the past 25 years at the six sites of interest in RMNP, Phantom Valley, Lake Irene, Willow Park, Bear Lake, Copeland Lake, and Wild Basin. We will then filter out any variables that are not being assessed for relationship to annual snowpack, and create annual aggregate variables from average snow water equivalent recorded, average snow depth, average snow temperature, and mean air temperature to simplify the daily data into an annual average that will aid in assessing trends over many years. We will be doing this according to a snow year, with a year being from October-September.</p>
+<section id="methods" class="level1">
+<h1>Methods</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"janitor"</span>, <span class="at">repos =</span> <span class="st">"https://cloud.r-project.org"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/jn/hk4fnzlx679cs3m0_lnzh7hh0000gn/T//Rtmp8QOM46/downloaded_packages</code></pre>
+    /var/folders/jn/hk4fnzlx679cs3m0_lnzh7hh0000gn/T//RtmpsB1nQD/downloaded_packages</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr hidden">
@@ -244,6 +234,12 @@ dbl (36): Bear Lake (322) Snow Water Equivalent (in) Start of Day Values, Be...
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>rmnp_clean <span class="ot">&lt;-</span> rmnp_snotel <span class="sc">%&gt;%</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<p>Our preliminary visual analysis of aggregate trends within MAT and SWE demonstrated that while the MAT of the six sites increased sharply over the 20 year period, the aggregate SWE of the six sites stayed relatively consistent with a slight overall increase (Fig. 1A, 1B). This prompted us to individually conduct visual analysis for each of the six sites to observe isolated instances of SWE trends. In accordance with our aggregate analysis, all six of the sites demonstrated dramatic temperature increases over the study period regardless of elevation. The individual analysis of SWE revealed that four of the six sites—Bear Lake, Copeland Lake, Wild Basin, and Willow Park—demonstrated increases in SWE in conjunction with increased temperatures (Fig. 2A, 2B, 2E, 2F). The other two sites—Lake Irene and Phantom Valley—exhibited a slight decrease in observed SWE over the 20 year period (Fig. 2C, 2D). There was no correlation between the elevation of each site and the observed SWE, with the highest elevated site, Lake Irene, and the lowest elevated site, Phantom Valley, demonstrating decreased SWE, while the other four sites with median elevations showing increases.</p>
+<section id="aggregate-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="aggregate-analysis">Aggregate Analysis</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr hidden">
@@ -297,6 +293,7 @@ dbl (36): Bear Lake (322) Snow Water Equivalent (in) Start of Day Values, Be...
 </div>
 </div>
 </div>
+<p>Fig. 1A</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>temp_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, <span class="fu">contains</span>(<span class="st">"air_temperature_average"</span>)) <span class="sc">%&gt;%</span></span>
@@ -333,17 +330,12 @@ dbl (36): Bear Lake (322) Snow Water Equivalent (in) Start of Day Values, Be...
 <pre><code>NULL</code></pre>
 </div>
 </div>
+<p>Fig. 1B</p>
 </section>
-<section id="preliminary-methods" class="level1">
-<h1>Preliminary Methods</h1>
-<p>To begin, we will conduct an exploratory data analysis using visual elements such as ggplots to represent trends in SWE over time and descriptive methods such as ANOVA to determine the differences in SWE by site. Visual exploration is important to understand if the nature of the relationship between variables is linear or if some transformation would better represent the relationship. After our visual exploration, we will perform any transformations necessary prior to model creation. If there appears to be a significant difference in SWE based on site, we may need to introduce site-specific variables such as elevation and latitude that will capture some individual site characteristics.</p>
-<p>We can use other summary statistics such as cor() to assess any underlying correlations between variables that will influence model design and assess trends over time. Then we will use a simple linear regression with SWE as the predicted value and the five annual aggregate variables as predictors. This will allow us to get an idea of what variables are significant, if the relationship is positive or negative, and how well the model fits based on the R squared model. Likely the linear regression will not be a sufficient model, so we will use machine learning to create a workflow with additional model types, such as random forest or neural network. We could run into challenges in several ways, such as unexpected relationships between variables, missing data, or roadblocks associated with unfamiliarity with R and handling data. We expect to handle these challenges in different ways, but are preparing for them by reviewing past lecture material and re-familiarizing ourselves with commands that we need to use to achieve our goals.</p>
-<p>These methods will provide us with helpful insights into our overall research question in several ways. First, visual exploration will show differences SWE over time and across sites, suggesting the impacts of climate change and which ecosystems seem to be most resistant to this change, if any. The ANOVA and summary statistics will serve a similar purpose. The linear and machine learning models we will build will be useful in understanding what impacts SWE to be able to predict future SWE levels based on environmental indicators.</p>
-</section>
-<section id="site-by-site-analysis" class="level1">
-<h1>Site-by-Site Analysis</h1>
-<section id="bear-lake-322" class="level2">
-<h2 class="anchored" data-anchor-id="bear-lake-322">Bear Lake (322)</h2>
+<section id="site-by-site-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="site-by-site-analysis">Site-by-Site Analysis</h3>
+<section id="bear-lake-322" class="level4">
+<h4 class="anchored" data-anchor-id="bear-lake-322">Bear Lake (322)</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>bear_swe_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
@@ -407,9 +399,10 @@ dbl (36): Bear Lake (322) Snow Water Equivalent (in) Start of Day Values, Be...
 </div>
 </div>
 </div>
+<p>Fig. 2A</p>
 </section>
-<section id="copeland-lake-412" class="level2">
-<h2 class="anchored" data-anchor-id="copeland-lake-412">Copeland Lake (412)</h2>
+<section id="copeland-lake-412" class="level4">
+<h4 class="anchored" data-anchor-id="copeland-lake-412">Copeland Lake (412)</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cope_swe_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, <span class="fu">contains</span>(<span class="st">"412_snow_water_equivalent"</span>)) <span class="sc">%&gt;%</span></span>
@@ -472,9 +465,10 @@ dbl (36): Bear Lake (322) Snow Water Equivalent (in) Start of Day Values, Be...
 </div>
 </div>
 </div>
+<p>Fig. 2B</p>
 </section>
-<section id="lake-irene-565" class="level2">
-<h2 class="anchored" data-anchor-id="lake-irene-565">Lake Irene (565)</h2>
+<section id="lake-irene-565" class="level4">
+<h4 class="anchored" data-anchor-id="lake-irene-565">Lake Irene (565)</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>irene_swe_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, <span class="fu">contains</span>(<span class="st">"565_snow_water_equivalent"</span>)) <span class="sc">%&gt;%</span></span>
@@ -537,9 +531,10 @@ dbl (36): Bear Lake (322) Snow Water Equivalent (in) Start of Day Values, Be...
 </div>
 </div>
 </div>
+<p>Fig. 2C</p>
 </section>
-<section id="phantom-valley-688" class="level2">
-<h2 class="anchored" data-anchor-id="phantom-valley-688">Phantom Valley (688)</h2>
+<section id="phantom-valley-688" class="level4">
+<h4 class="anchored" data-anchor-id="phantom-valley-688">Phantom Valley (688)</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>phantom_swe_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, <span class="fu">contains</span>(<span class="st">"688_snow_water_equivalent"</span>)) <span class="sc">%&gt;%</span></span>
@@ -602,9 +597,10 @@ dbl (36): Bear Lake (322) Snow Water Equivalent (in) Start of Day Values, Be...
 </div>
 </div>
 </div>
+<p>Fig. 2D</p>
 </section>
-<section id="wild-basin-1042" class="level2">
-<h2 class="anchored" data-anchor-id="wild-basin-1042">Wild Basin (1042)</h2>
+<section id="wild-basin-1042" class="level4">
+<h4 class="anchored" data-anchor-id="wild-basin-1042">Wild Basin (1042)</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>basin_swe_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, <span class="fu">contains</span>(<span class="st">"1042_snow_water_equivalent"</span>)) <span class="sc">%&gt;%</span></span>
@@ -667,9 +663,10 @@ dbl (36): Bear Lake (322) Snow Water Equivalent (in) Start of Day Values, Be...
 </div>
 </div>
 </div>
+<p>Fig. 2E</p>
 </section>
-<section id="willow-park-870" class="level2">
-<h2 class="anchored" data-anchor-id="willow-park-870">Willow Park (870)</h2>
+<section id="willow-park-870" class="level4">
+<h4 class="anchored" data-anchor-id="willow-park-870">Willow Park (870)</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>willow_swe_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, <span class="fu">contains</span>(<span class="st">"870_snow_water_equivalent"</span>)) <span class="sc">%&gt;%</span></span>
@@ -732,12 +729,14 @@ dbl (36): Bear Lake (322) Snow Water Equivalent (in) Start of Day Values, Be...
 </div>
 </div>
 </div>
+<p>Fig. 2F</p>
 </section>
 </section>
-<section id="statistical-analysis" class="level1">
-<h1>Statistical Analysis</h1>
-<section id="swe-one-way-anova" class="level2">
-<h2 class="anchored" data-anchor-id="swe-one-way-anova">SWE One-Way ANOVA</h2>
+<section id="statistical-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-analysis">Statistical Analysis</h3>
+<p>Conducting One-Way ANOVA testing for both the site-based differences in SWE and MAT revealed statistically significant differences, confirming our visual analysis of both variables across each of the six sites. In our ANOVA testing for SWE, there was strong statistical significance that there was site-based variability in SWE (F-Statistic = 1022, P = &lt;2e-16, Fig. 3A). When conducting ANOVA testing for MAT, there was also strong statistical significance for site-based temperature variability (F-Statistic = 333.5, P = &lt;2e-16, Fig. 3B). Our Two-Way ANOVA testing analyzed the effect of MAT and site on SWE, with our results demonstrating that there are statistically significant impacts of MAT on SWE, though not all of the sites exhibited the same MAT/SWE relationship (Fig. 3C).</p>
+<section id="swe-one-way-anova" class="level4">
+<h4 class="anchored" data-anchor-id="swe-one-way-anova">SWE One-Way ANOVA</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
@@ -766,9 +765,10 @@ Residuals   37776 1773767      47
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
+<p>Fig. 3A</p>
 </section>
-<section id="temp-one-way-anova" class="level2">
-<h2 class="anchored" data-anchor-id="temp-one-way-anova">TEMP One-Way ANOVA</h2>
+<section id="temp-one-way-anova" class="level4">
+<h4 class="anchored" data-anchor-id="temp-one-way-anova">TEMP One-Way ANOVA</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>site_temp_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, <span class="fu">contains</span>(<span class="st">"air_temperature_average"</span>)) <span class="sc">%&gt;%</span></span>
@@ -793,9 +793,10 @@ Residuals   37776 9864814     261
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
+<p>Fig. 3B</p>
 </section>
-<section id="two-way-anova" class="level2">
-<h2 class="anchored" data-anchor-id="two-way-anova">Two-Way ANOVA</h2>
+<section id="two-way-anova" class="level4">
+<h4 class="anchored" data-anchor-id="two-way-anova">Two-Way ANOVA</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>df_merged <span class="ot">&lt;-</span> <span class="fu">merge</span>(site_temp_data, site_swe_data, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"site_code"</span>, <span class="st">"year"</span>))</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -811,9 +812,12 @@ Residuals      12482022 595065286       48
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
+<p>Fig. 3C</p>
 </section>
-<section id="time-series-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="time-series-analysis">Time Series Analysis</h2>
+</section>
+<section id="time-series-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="time-series-analysis">Time Series Analysis</h3>
+<p>Through our use of Time Series Analysis, we were able to observe the raw SWE time series, trends, season year, and remainder for each of the sites. In the raw SWE time series, there are visual seasonal spikes occurring with seasons of snow accumulation. The long term trends section demonstrated that there were slight declines for some sites, such as Lake Irene, which exhibited a more variable trend (Fig. 4). The season year visualization indicates that there are highly consistent annual seasonal patterns of snowpack across the six sites, which is consistent with current literature surrounding snowfall patterns. Within the randomness section, it can be observed that there is a decent amount of unexplained variance in SWE that cannot be explained by temperature.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -910,15 +914,13 @@ Attaching package: 'tsibble'</code></pre>
 </div>
 </div>
 </div>
+<p>Fig. 4</p>
 </section>
 </section>
 <section id="discussion" class="level1">
 <h1>Discussion</h1>
-<p>In our initial data visualization, we graphed the annual aggregate snow water equivalent by year for and the mean aggregate temperature by year for the sites in Rocky Mountain National Park. We included lines of best fit for both of the graphical representations of these variables to get a sense for general trends we might be looking at. In the average aggregate snow water equivalent by year data, there appears to be a slight upward trend throughout the 20-year period of analysis. Similarly, in the data for the mean aggregate temperature by year there appears to be an increasing trend, though much sharper than the snow water equivalent graph.</p>
-<p>Following these initial aggregate analyses, we separated each of the sites and conducted the same exploratory analysis for all six over the 20-year period to observe individual variations within each site. Contrary to our hypothesis, four out of the six sites exhibited increased snow water equivalent levels with increasing temperatures over the 20-year period of study. This may indicate that increased temperatures may reduce snowfall, but increase the overall density of water content within the snow itself leading to higher recorded snow water equivalents.</p>
-<p>Through our use of ANOVA analysis we were able to conduct one-way analyses with both individual variables for each study site, as well as observing the relationship between the two variables. Our analysis of snow water content revealed that site number was a strong indicator of the variable, suggesting that site-based differences such as altitude might affect snowpack in relation to temperature. Similarly, we found that temperature was similarly impacted by site number, pointing to a difference of variables based on site conditions. In our two-way analysis, we found that around 48% of the variance in snow water equivalence could be explained by temperature, which suggests that additional variables account for the remaining 50% of variance. This could be a jumping point for additional study, prompting the exploration of other variables within the data set.</p>
-<p>We used a Seasonal-Trend Decomposition using LOESS (STL) for monthly average snow water equivalent (SWE) data across the six sites. The results of the decomposition were analyzed by components to better understand how SWE changes year over year. The mean_swe graph represents the original time series data, indicating that each site shows strong seasonal SWE peaks between March-April, with Lake Irene consistently having the highest SWE and Copeland Lake and Willow Park rank lowest. The trend component graph smooths out seasonal variance to show trends year to year, with site differences emerging. Some sites, like Lake Irene and Phantom Valley show declines in SWE post ~2011 specifically. Other sites, like Copeland Lake, reflect a relatively stable if not slightly increasing SWE trend. These differences between trends suggest site-specific variability in SWE in response to changing weather and climate patterns. More data analysis is needed at the site level to assess how other variables such as elevation or latitude may contribute to differences in trends. The season_year component captures annual patterns and indicates that SWE is highly seasonal following a similar pattern each year, with the greatest snowpack in March-April, then decreasing during the summer months and accumulating through winter. The season_week indicates there is no additional weekly pattern to seasonality, but this may not accurately reflect weekly variation as the time series was built on monthly average values to avoid noise in the data. The remainder component represents residuals and displays no major anomalies, suggesting that the STL decomposition captures the structure of the time series well. There are minor outliers, with a spike in 2011 accompanied by variance in the pattern until 2015. These outliers could reflect year to year weather variations and may be influenced by extreme weather events or El Niño/La Niña years.</p>
-<p>Though our study indicates that more research into the effects of climate change on alpine snowpack levels is needed to further explore the relationship between temperature changes and snow water equivalents, it may open new conversations around unexpected results of climate change. Our study is limited by the timespan of our data, which only shows a snapshot of recorded trends relating to snowpack in Rocky Mountain National Park, though further analysis could build upon our study with an expanded time frame. Additionally, our study was limited by the time we had to complete it and the extent of our data analysis skills. The relationship between snow water equivalents and other variables in the data could be further explored, highlighting the extent to which multivariate analysis could explain some of the additional variance.</p>
+<p>In our initial data visualization, we graphed the annual aggregate snow water equivalent by year for and the mean aggregate temperature by year for the sites in Rocky Mountain National Park. We included lines of best fit for both of the graphical representations of these variables to get a sense for general trends we might be looking at. In the average aggregate snow water equivalent by year data, there appears to be a slight upward trend throughout the 20-year period of analysis (Fig. 1A). Similarly, in the data for the mean aggregate temperature by year there appears to be an increasing trend, though much sharper than the snow water equivalent graph (Fig. 1B). Following these initial aggregate analyses, we separated each of the sites and conducted the same exploratory analysis for all six over the 20-year period to observe individual variations within each site. Contrary to our hypothesis, four out of the six sites exhibited increased snow water equivalent levels with increasing temperatures over the 20-year period of study (Fig. 2A, 2B, 2E, 2F). This may indicate that increased temperatures may reduce snowfall, but increase the overall density of water content within the snow itself leading to higher recorded snow water equivalents. Through our use of ANOVA analysis we were able to conduct one-way analyses with both individual variables for each study site, as well as observing the relationship between the two variables. Our analysis of snow water content revealed that site number was a strong indicator of the variable, suggesting that site-based differences such as altitude might affect snowpack in relation to temperature (Fig. 3A). Similarly, we found that temperature was similarly impacted by site number, pointing to a difference of variables based on site conditions (Fig. 3B) . In our two-way analysis, we found that around 48% of the variance in snow water equivalence could be explained by temperature, which suggests that additional variables account for the remaining 50% of variance (Fig. 3C). This could be a jumping point for additional study, prompting the exploration of other variables within the data set. We used a Seasonal-Trend Decomposition using LOESS (STL) for monthly average snow water equivalent (SWE) data across the six sites. The results of the decomposition were analyzed by components to better understand how SWE changes year over year. The mean_swe graph represents the original time series data, indicating that each site shows strong seasonal SWE peaks between March-April, with Lake Irene consistently having the highest SWE and Copeland Lake and Willow Park rank lowest (Fig. 4). The trend component graph smooths out seasonal variance to show trends year to year, with site differences emerging. Some sites, like Lake Irene and Phantom Valley show declines in SWE post ~2011 specifically (Fig. 4). Other sites, like Copeland Lake, reflect a relatively stable if not slightly increasing SWE trend. These differences between trends suggest site-specific variability in SWE in response to changing weather and climate patterns. More data analysis is needed at the site level to assess how other variables such as elevation or latitude may contribute to differences in trends.<br>
+The season_year component captures annual patterns and indicates that SWE is highly seasonal following a similar pattern each year, with the greatest snowpack in March-April, then decreasing during the summer months and accumulating through winter (Fig. 4). The season_week indicates there is no additional weekly pattern to seasonality, but this may not accurately reflect weekly variation as the time series was built on monthly average values to avoid noise in the data. The remainder component represents residuals and displays no major anomalies, suggesting that the STL decomposition captures the structure of the time series well. There are minor outliers, with a spike in 2011 accompanied by variance in the pattern until 2015. These outliers could reflect year to year weather variations and may be influenced by extreme weather events or El Niño/La Niña years. Though our study indicates that more research into the effects of climate change on alpine snowpack levels is needed to further explore the relationship between temperature changes and snow water equivalents, it may open new conversations around unexpected results of climate change. Our study is limited by the timespan of our data, which only shows a snapshot of recorded trends relating to snowpack in Rocky Mountain National Park, though further analysis could build upon our study with an expanded time frame. Additionally, our study was limited by the time we had to complete it and the extent of our data analysis skills. The relationship between snow water equivalents and other variables in the data could be further explored, highlighting the extent to which multivariate analysis could explain some of the additional variance.</p>
 
 </section>
 
@@ -1352,7 +1354,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","descPosition":"bottom","selector":".lightbox","loop":false});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom","openEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
